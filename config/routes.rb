@@ -7,5 +7,21 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
   
   get 'signup', to: 'users#new'
+  
   resources :users, only: [:index, :show, :new, :create]
+    
+  resources :microposts, only: [:create, :destroy]
+
+    # member do #idがいる時
+    #   get 'extendshow'
+    # end
+    
+    # collection do #idがいらない
+    #   get 'edit'
+    #   patch 'update'
+    #   put   'update'
+    #   delete 'destroy'
+      
+    
 end
+

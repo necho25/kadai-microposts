@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar navbar-inverse navbar-static-top">
+  <nav class="navbar navbar-inverse navbar-static-top　navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-collapse-1" aria-expanded="false">
@@ -20,6 +20,8 @@
                 <li><%= link_to 'My profile', user_path(current_user) %></li>
                 <li role="separator" class="divider"></li>
                 <li><%= link_to 'ログアウト', logout_path, method: :delete %></li>
+                <li role="separator" class="divider"></li>
+                <li><%#= link_to '退会', @users, method: :delete, data: {confirm: '本当に退会しますか？'} %></li>
               </ul>
             </li>
           <% else %>

@@ -1,9 +1,22 @@
 <% if logged_in? %>
-  <p>ログイン完了ユーザー: <%= current_user.name %></p>
+  <!--<p>ログイン完了ユーザー: <%#= current_user.name %></p>-->
+  <div class="row">
+    <aside class="col-md-4">
+      <%= form_for(@micropost) do |f| %>
+      <div class="form-group">
+        <%= f.text_area :content, class: 'form-control', rows: 5 %>
+      </div>
+      <%= f.submit '投稿', class: 'btn btn-primary btn-block' %>
+      <% end %>
+    </aside>
+    <div class="col-xs-8">
+      <%= render 'microposts/microposts', microposts: @microposts %>
+    </div>
+  </div>
 <% else %>
   <div class="center jumbotron">
     <div class="text-center">
-      <h1>Welcome to the Microposts</h1>
+      <h1>Micropostsへ ようこそ‼</h1>
       <%= link_to '今すぐ新規登録を！', signup_path, class: 'btn btn-primary' %>
     </div>
   </div>

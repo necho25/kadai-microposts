@@ -7,6 +7,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.order('created_at DESC').page(params[:page])
+    counts(@user)
   end
 
   def new
@@ -24,6 +26,31 @@ class UsersController < ApplicationController
       render :new
     end
   end
+    
+    def edit
+#      @user = User.find(params[:id])
+      @user = current_user
+    end
+    
+    def update
+      @user = current_user
+      
+      if @user.update(user_params)
+        flash[:success] = "更新しました"
+        redirect_to @user
+      else
+        flash[:error] = "更新できませんでした"
+        render :edit
+      end
+    end
+    
+    def destroy
+      #@user = User.find(params[:id])
+      @user.destroy
+      
+      flash[:success] = 'アカウントを削除しました'
+      redirect_to root_url
+    end
 
 
 private
