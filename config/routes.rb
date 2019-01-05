@@ -8,9 +8,18 @@ Rails.application.routes.draw do
   
   get 'signup', to: 'users#new'
   
-  resources :users, only: [:index, :show, :new, :create]
+  resources :users, only: [:index, :show, :new, :create] do
+    member do
+      get :followings
+      get :followers
+    end
+    collection do
+      get :search
+    end
+  end
     
   resources :microposts, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
     # member do #idがいる時
     #   get 'extendshow'

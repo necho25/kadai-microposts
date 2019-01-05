@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show]
+  before_action :require_user_logged_in, only: [:index, :show, :followings, :followers]
   
   def index
     @users = User.all.page(params[:page])
@@ -17,7 +17,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    
     if @user.save
       flash[:success] = 'ユーザーの新規登録が出来ました'
       redirect_to @user
@@ -26,31 +25,42 @@ class UsersController < ApplicationController
       render :new
     end
   end
+  
+  def followings
+    @user = User.find(params[:id])
+    @followings = @user.followings.page(params[:page])
+    counts(@user)
+  end
+  
+  def followers
+    @user = User.find(params[:id])
+    @followers = @user.followers.page(params[:page])
+    counts(@user)
+  end
     
-    def edit
+  def edit
 #      @user = User.find(params[:id])
-      @user = current_user
+    @user = current_user
+  end
+  
+  def update
+    @user = current_user
+    if @user.update(user_params)
+      flash[:success] = "更新しました"
+      redirect_to @user
+    else
+      flash[:error] = "更新できませんでした"
+      render :edit
     end
+  end
+  
+  def destroy
+    #@user = User.find(params[:id])
+    @user.destroy
     
-    def update
-      @user = current_user
-      
-      if @user.update(user_params)
-        flash[:success] = "更新しました"
-        redirect_to @user
-      else
-        flash[:error] = "更新できませんでした"
-        render :edit
-      end
-    end
-    
-    def destroy
-      #@user = User.find(params[:id])
-      @user.destroy
-      
-      flash[:success] = 'アカウントを削除しました'
-      redirect_to root_url
-    end
+    flash[:success] = 'アカウントを削除しました'
+    redirect_to root_url
+  end
 
 
 private

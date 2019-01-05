@@ -13,6 +13,7 @@
       </div>
       <div>
         <% if current_user == micropost.user %>
+          <%#= link_to 'アカウントの編集', edit_users_path %> <!--未実装-->
           <%= link_to '削除', micropost, method: :delete, data: {confirm: '本当にこの投稿を削除しますか？'}, class: 'btn btn-danger btn-xs' %>
         <% end %>
       </div>
