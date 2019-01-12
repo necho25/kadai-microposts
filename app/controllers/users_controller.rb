@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show, :followings, :followers]
+  before_action :require_user_logged_in, only: [:index, :show, :followings, :followers, :link]
   
   def index
     @users = User.all.page(params[:page])
@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @microposts = @user.microposts.order('created_at DESC').page(params[:page])
+    @micropost = Micropost.find_by(params[:micropost_id])
     counts(@user)
   end
 
@@ -39,7 +40,7 @@ class UsersController < ApplicationController
   end
     
   def edit
-#      @user = User.find(params[:id])
+    # @user = User.find(params[:id])
     @user = current_user
   end
   
@@ -55,12 +56,21 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    #@user = User.find(params[:id])
+    @user = current_user
     @user.destroy
     
     flash[:success] = 'アカウントを削除しました'
     redirect_to root_url
   end
+  
+  def likes
+    #binding.pry
+    @user = User.find(params[:id])
+    #@micropost = Micropost.find(params[:id]) #いらない？
+    @favos = @user.favos.page(params[:page]) #user.id ,favorites => micropost.id micropostテーブルの中身
+    counts(@user)
+  end
+    
 
 
 private

@@ -1,0 +1,14 @@
+<%# unless current_user == micropost.user %> <!--このmicropost.user_idがcurrent_userの物じゃないか-->
+  <% if current_user.favos?(micropost) %> <!--既にこのmicropost.idをお気に入り登録してるか-->
+    <%= form_for(current_user.favorites.find_by(micropost_id: micropost.id), html: {method: :delete}) do |f| %>
+    <!--find(micropost_id)？中間テーブルにあるこのmicropost.idを参照  html:は何？-->
+      <%= hidden_field_tag :micropost_id, micropost.id %> <!--データ取得にmicropost.idも必要-->
+      <%= f.submit 'お気に入り解除', class: 'btn btn-danger btn-xs' %>
+    <% end %>
+  <% else %>
+    <%= form_for(current_user.favorites.build) do |f| %>
+      <%= hidden_field_tag :micropost_id, micropost.id %>
+      <%= f.submit 'お気に入り登録', class: 'btn btn-primary btn-xs' %>
+    <% end %>
+  <% end %>
+<%# end %>
